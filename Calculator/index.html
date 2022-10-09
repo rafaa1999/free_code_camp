@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script>
+
+        let trailingResult = 0;
+        let operationOptions = ['decimal','divide','multiply','subtract','add'];
+        let workingWithOperation = "";
+
+        function updataDisplay(input){
+                let display = document.getElementById("display");
+                let secondaryDisplay = document.getElementById("secondary");
+                if(display.innerHTML === '0' && operationOptions.indexOf(input) === -1){
+                    display.innerHTML = input
+                }else if(operationOptions.indexOf(input) >= 0){
+                    
+                    if(workingWithOperation === ""){
+                        workingWithOperation = input;
+                        trailingResult = display.innerHTML;
+                        display.innerHTML = 0;
+                    }else{
+                        trailingResult = calculate(trailingResult, display.innerHTML, workingWithOperation);
+                        secondaryDisplay.innerHTML = trailingResult;
+                        display.innerHTML = 0;
+                        workingWithOperation = input;
+                    }
+                }else if(input === "equals"){
+                    display.innerHTML = calculate(trailingResult, display.innerHTML, workingWithOperation);
+                    trailingResult = display.innerHTML;
+                }else{
+                    display.innerHTML += input;
+                }
+                console.log(trailingResult, '<=trailingResult', display.innerHTML, '<=display.innerHTML', workingWithOperation,'<=workingWithOperation')
+        }
+
+        function clearDisplay(){
+            document.getElementById("display").innerHTML = 0;
+        }
+
+        function calculate(firstNumber, secondNumber, operation){
+            let result;
+            firstNumber = parseFloat(firstNumber);
+            secondNumber = parseFloat(secondNumber);
+            switch (operation) {
+                case 'add':
+                    result = firstNumber + secondNumber
+                    break;
+                case 'subtract':
+                    result = firstNumber - secondNumber
+                    break;
+                case 'divide':
+                    result = firstNumber / secondNumber
+                    break;
+                case 'multiply':
+                    result = firstNumber * secondNumber
+                    break;
+                default:
+                    console.log("there is something wrong")
+            }
+            return result.toString()
+        }
+
+    </script>
+</head>
+<body>
+
+    <div class="container-fluid my-3">
+
+        <div class="row">
+            <div class="col-10">
+                <div id="display" class="bg-info text-center my-3 py-3">0</div>
+            </div>
+            <div class="col-2">
+                <div id="secondary" class="bg-secondary text-center my-3 py-3">0</div>
+            </div>
+        </div>
+
+
+        <div class="row text-center">
+            <div class="col-4">
+                <button id="zero" class="btn btn-block btn-primary" onclick="updataDisplay(0)">0</button>
+                <button id="one" class="btn btn-block btn-primary" onclick="updataDisplay(1)">1</button>
+                <button id="two" class="btn btn-block btn-primary" onclick="updataDisplay(2)">2</button>
+                <button id="equals" class="btn btn-block btn-success" onclick="updataDisplay('equals')">=</button>
+            </div>
+    
+            <div class="col-4">
+                <button id="three" class="btn btn-block btn-primary" onclick="updataDisplay(3)">3</button>
+                <button id="four" class="btn btn-block btn-primary" onclick="updataDisplay(4)">4</button>
+                <button id="five" class="btn btn-block btn-primary" onclick="updataDisplay(5)">5</button>
+                <button id="clear" class="btn btn-block btn-danger" onclick="clearDisplay()">clear</button>
+            </div>
+       
+            <div class="col-4">
+                <button id="six" class="btn btn-block btn-primary" onclick="updataDisplay(6)">6</button>
+                <button id="seven" class="btn btn-block btn-primary" onclick="updataDisplay(7)">7</button>
+                <button id="eight" class="btn btn-block btn-primary" onclick="updataDisplay(8)">8</button>
+                <button id="nine" class="btn btn-block btn-primary" onclick="updataDisplay(9)">9</button>
+            </div>
+         </div>
+
+        <div class="row text-center mt-3">
+            <div class="col">
+                <button id="add" class="btn btn-block btn-secondary" onclick="updataDisplay('add')">+</button>
+            </div>
+            <div class="col">
+                <button id="subtract" class="btn btn-block btn-secondary" onclick="updataDisplay('subtract')">-</button>
+            </div>
+            <div class="col">
+                <button id="multiply" class="btn btn-block btn-secondary" onclick="updataDisplay('multiply')">*</button>
+            </div>
+            <div class="col">
+                <button id="divide" class="btn btn-block btn-secondary" onclick="updataDisplay('divide')">/</button>
+            </div>
+            <div class="col">
+                <button id="decimal" class="btn btn-block btn-secondary" onclick="updataDisplay('decimal')">.</button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
+</body>
+</html>
